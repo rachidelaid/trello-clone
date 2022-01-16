@@ -1,4 +1,18 @@
 <script>
+  import titleStore from '../store/titles';
+
+  let modal = false;
+  let name = '';
+
+  const add = (e) => {
+    if (e.target.id === 'add' && name.trim() !== '') {
+      titleStore.update((titles) => {
+        localStorage.setItem('titles', JSON.stringify([...titles, name]));
+        return [...titles, name];
+      });
+      modal = false;
+    }
+  };
 </script>
 
 <nav>
@@ -8,7 +22,7 @@
   </div>
 
   <div class="link">
-    <p>
+    <p on:click={() => (modal = true)}>
       <svg style="width:24px;height:24px" viewBox="0 0 24 24">
         <path
           fill="currentColor"
@@ -17,6 +31,15 @@
       </svg>add column
     </p>
   </div>
+
+  {#if modal}
+    <div class="modal-wrap" on:click={add}>
+      <div class="modal">
+        <input type="text" placeholder="List Name" bind:value={name} />
+        <button id="add">add</button>
+      </div>
+    </div>
+  {/if}
 </nav>
 
 <style>
@@ -34,5 +57,17 @@
 
   .logo img {
     width: 35px;
+  }
+
+  .modal-wrap {
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
   }
 </style>
