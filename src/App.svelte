@@ -1,7 +1,10 @@
 <script>
+  import NavBar from './components/NavBar.svelte';
 </script>
 
-<main></main>
+<main>
+  <NavBar />
+</main>
 
 <style>
 </style>
