@@ -35,15 +35,4 @@
   .logo img {
     width: 35px;
   }
-
-  p {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
-  }
-
-  p:hover {
-    color: #fff;
-  }
 </style>
