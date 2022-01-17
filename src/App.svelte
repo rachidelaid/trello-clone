@@ -8,8 +8,8 @@
 <main>
   <NavBar />
   <section>
-    {#each $titleStore as title}
-      <List {title} />
+    {#each $titleStore as title, id}
+      <List {title} {id} />
     {/each}
   </section>
 </main>

@@ -1,5 +1,6 @@
 <script>
   import titleStore from '../store/titles';
+  import boardStore from '../store/boards';
 
   let modal = false;
   let name = '';
@@ -7,9 +8,25 @@
   const add = (e) => {
     if (e.target.id === 'add' && name.trim() !== '') {
       titleStore.update((titles) => {
-        localStorage.setItem('titles', JSON.stringify([...titles, name]));
-        return [...titles, name];
+        localStorage.setItem(
+          'titles',
+          JSON.stringify([...titles, name.trim()]),
+        );
+        return [...titles, name.trim()];
       });
+
+      boardStore.update((boards) => {
+        boards[name.trim()] = [];
+        localStorage.setItem('boards', JSON.stringify(boards));
+        return boards;
+      });
+
+      modal = false;
+
+      name = '';
+    }
+
+    if (!e.target.id) {
       modal = false;
     }
   };
@@ -35,7 +52,12 @@
   {#if modal}
     <div class="modal-wrap" on:click={add}>
       <div class="modal">
-        <input type="text" placeholder="List Name" bind:value={name} />
+        <input
+          id="addList"
+          type="text"
+          placeholder="List Name"
+          bind:value={name}
+        />
         <button id="add">add</button>
       </div>
     </div>
