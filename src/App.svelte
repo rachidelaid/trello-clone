@@ -5,6 +5,7 @@
   import List from './components/List.svelte';
 
   import { dndzone } from 'svelte-dnd-action';
+  import { flip } from 'svelte/animate';
 
   const handleDrag = (e) => {
     store.update((arr) => {
@@ -28,7 +29,9 @@
     on:finalize={handleDrag}
   >
     {#each $store as board (board.id)}
-      <List {board} />
+      <div animate:flip={{ duration: 200 }}>
+        <List {board} />
+      </div>
     {/each}
   </section>
 </main>

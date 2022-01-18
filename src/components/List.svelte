@@ -5,17 +5,17 @@
 
   import { dndzone } from 'svelte-dnd-action';
   import { flip } from 'svelte/animate';
-  const flipDurationMs = 200;
 
   let container;
 
-  const handleConsider = (e) => {
-    // items = e.detail.items;
-    console.log(e.detail.items);
-  };
-  const handleFinal = (e) => {
-    // items = e.detail.items;
-    console.log(e.detail.items);
+  const handleDrag = (e) => {
+    boardStore.update((arr) => {
+      const curBoard = arr.find((b) => b.id === board.id);
+      curBoard.items = e.detail.items;
+
+      localStorage.setItem('store', JSON.stringify(arr));
+      return arr;
+    });
   };
 
   const handleChange = (e) => {
@@ -59,6 +59,10 @@
       inp.blur();
     });
   };
+
+  const onDraging = (element, data) => {
+    element.innerHTML = `<div class="card dragging">${data.description}</div>`;
+  };
 </script>
 
 <div class="list">
@@ -71,12 +75,17 @@
   <div
     class="list-container"
     bind:this={container}
-    use:dndzone={{ items: board.items, flipDurationMs }}
-    on:consider={handleConsider}
-    on:finalize={handleFinal}
+    use:dndzone={{
+      items: board.items,
+      flipDurationMs: 200,
+      dropTargetStyle: '',
+      transformDraggedElement: onDraging,
+    }}
+    on:consider={handleDrag}
+    on:finalize={handleDrag}
   >
     {#each board.items as task (task.id)}
-      <div animate:flip={{ duration: flipDurationMs }}>
+      <div animate:flip={{ duration: 200 }}>
         <Card description={task.description} />
       </div>
     {/each}
