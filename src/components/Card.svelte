@@ -2,7 +2,7 @@
   export let description;
 </script>
 
-<div class="card" draggable={true}>{description}</div>
+<div class="card">{description}</div>
 
 <style>
   .card {

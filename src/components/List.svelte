@@ -1,18 +1,30 @@
 <script>
-  import titleStore from '../store/titles';
-  import boardStore from '../store/boards';
+  import boardStore from '../store';
   import Card from './Card.svelte';
+  export let board;
 
-  export let title = '...';
-  export let id;
+  import { dndzone } from 'svelte-dnd-action';
+  import { flip } from 'svelte/animate';
+  const flipDurationMs = 200;
 
   let container;
 
-  const handleChange = () => {
-    titleStore.update((titles) => {
-      titles[id] = title;
-      localStorage.setItem('titles', JSON.stringify(titles));
-      return titles;
+  const handleConsider = (e) => {
+    // items = e.detail.items;
+    console.log(e.detail.items);
+  };
+  const handleFinal = (e) => {
+    // items = e.detail.items;
+    console.log(e.detail.items);
+  };
+
+  const handleChange = (e) => {
+    boardStore.update((boards) => {
+      const curBoard = boards.find((b) => b.id === board.id);
+      curBoard.title = e.target.value.trim();
+
+      localStorage.setItem('store', JSON.stringify(boards));
+      return boards;
     });
   };
 
@@ -33,16 +45,13 @@
 
     inp.addEventListener('change', () => {
       boardStore.update((boards) => {
-        if (!boards[title]) {
-          boards[title] = [];
-        }
-
-        boards[title].push({
+        const curBoard = boards.find((b) => b.id === board.id);
+        curBoard.items.push({
           description: inp.value.trim(),
-          index: boards[title].length,
+          id: Date.now(),
         });
 
-        localStorage.setItem('boards', JSON.stringify(boards));
+        localStorage.setItem('store', JSON.stringify(boards));
 
         return boards;
       });
@@ -56,15 +65,21 @@
   <input
     type="text"
     placeholder="..."
-    bind:value={title}
+    bind:value={board.title}
     on:change={handleChange}
   />
-  <div class="list-container" bind:this={container}>
-    {#if $boardStore[title]}
-      {#each $boardStore[title] as task}
+  <div
+    class="list-container"
+    bind:this={container}
+    use:dndzone={{ items: board.items, flipDurationMs }}
+    on:consider={handleConsider}
+    on:finalize={handleFinal}
+  >
+    {#each board.items as task (task.id)}
+      <div animate:flip={{ duration: flipDurationMs }}>
         <Card description={task.description} />
-      {/each}
-    {/if}
+      </div>
+    {/each}
   </div>
   <p on:click={addCard}>
     <svg style="width:24px;height:24px" viewBox="0 0 24 24">

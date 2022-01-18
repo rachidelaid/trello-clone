@@ -1,24 +1,19 @@
 <script>
-  import titleStore from '../store/titles';
-  import boardStore from '../store/boards';
+  import boardStore from '../store';
 
   let modal = false;
   let name = '';
 
   const add = (e) => {
     if (e.target.id === 'add' && name.trim() !== '') {
-      titleStore.update((titles) => {
-        localStorage.setItem(
-          'titles',
-          JSON.stringify([...titles, name.trim()]),
-        );
-        return [...titles, name.trim()];
-      });
-
-      boardStore.update((boards) => {
-        boards[name.trim()] = [];
-        localStorage.setItem('boards', JSON.stringify(boards));
-        return boards;
+      boardStore.update((arr) => {
+        arr.push({
+          items: [],
+          id: Date.now(),
+          title: name.trim(),
+        });
+        localStorage.setItem('store', JSON.stringify(arr));
+        return arr;
       });
 
       modal = false;
