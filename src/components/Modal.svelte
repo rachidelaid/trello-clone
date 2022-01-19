@@ -36,7 +36,7 @@
   }
 
   .option {
-    background-color: #000;
+    background-color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
     padding: 5px;
     border-radius: 5px;
