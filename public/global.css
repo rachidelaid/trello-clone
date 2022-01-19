@@ -93,3 +93,7 @@ p:hover {
 .dragging {
   transform: scale(0.95) rotate(4deg);
 }
+
+.on-top {
+  z-index: 9999;
+}

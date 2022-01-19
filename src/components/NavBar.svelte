@@ -1,29 +1,16 @@
 <script>
   import boardStore from '../store';
 
-  let modal = false;
-  let name = '';
-
-  const add = (e) => {
-    if (e.target.id === 'add' && name.trim() !== '') {
-      boardStore.update((arr) => {
-        arr.push({
-          items: [],
-          id: Date.now(),
-          title: name.trim(),
-        });
-        localStorage.setItem('store', JSON.stringify(arr));
-        return arr;
+  const add = () => {
+    boardStore.update((arr) => {
+      arr.push({
+        items: [],
+        id: Date.now(),
+        title: 'Enter a title ...',
       });
-
-      modal = false;
-
-      name = '';
-    }
-
-    if (!e.target.id) {
-      modal = false;
-    }
+      localStorage.setItem('store', JSON.stringify(arr));
+      return arr;
+    });
   };
 </script>
 
@@ -34,7 +21,7 @@
   </div>
 
   <div class="link">
-    <p on:click={() => (modal = true)}>
+    <p on:click={add}>
       <svg style="width:24px;height:24px" viewBox="0 0 24 24">
         <path
           fill="currentColor"
@@ -43,20 +30,6 @@
       </svg>add column
     </p>
   </div>
-
-  {#if modal}
-    <div class="modal-wrap" on:click={add}>
-      <div class="modal">
-        <input
-          id="addList"
-          type="text"
-          placeholder="List Name"
-          bind:value={name}
-        />
-        <button id="add">add</button>
-      </div>
-    </div>
-  {/if}
 </nav>
 
 <style>
@@ -74,17 +47,5 @@
 
   .logo img {
     width: 35px;
-  }
-
-  .modal-wrap {
-    top: 0;
-    left: 0;
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.6);
   }
 </style>

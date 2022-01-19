@@ -1,4 +1,5 @@
 <script>
+  import Modal from './Modal.svelte';
   import boardStore from '../store';
   import Card from './Card.svelte';
   export let board;
@@ -7,6 +8,8 @@
   import { flip } from 'svelte/animate';
 
   let container;
+  let modal;
+  let position;
 
   const handleDrag = (e) => {
     boardStore.update((arr) => {
@@ -63,7 +66,37 @@
   const onDraging = (element, data) => {
     element.innerHTML = `<div class="card dragging">${data.description}</div>`;
   };
+
+  const showModal = (e) => {
+    e.preventDefault();
+
+    document
+      .querySelectorAll('.on-top')
+      .forEach((c) => c.classList.remove('on-top'));
+
+    e.target.parentNode.classList.add('on-top');
+
+    const { top, right, left } = e.target.getBoundingClientRect();
+    position = { top, right };
+
+    if (window.innerWidth < right + 105) {
+      position.right = left - 105;
+    }
+
+    modal = true;
+  };
+
+  const handleModal = (e) => {
+    console.log(e);
+    if (e.target.id === 'modal') {
+      modal = false;
+    }
+  };
 </script>
+
+{#if modal}
+  <Modal {position} on:click={handleModal} />
+{/if}
 
 <div class="list">
   <input
@@ -85,7 +118,7 @@
     on:finalize={handleDrag}
   >
     {#each board.items as task (task.id)}
-      <div animate:flip={{ duration: 200 }}>
+      <div animate:flip={{ duration: 200 }} on:contextmenu={showModal}>
         <Card description={task.description} />
       </div>
     {/each}
