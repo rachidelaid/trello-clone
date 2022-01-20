@@ -87,9 +87,6 @@
       val.append(inp);
       inp.focus();
 
-      // inp.addEventListener('focusout', () => {
-      //   card.remove();
-      // });
       inp.addEventListener('change', () => {
         store.update((arr) => {
           const curBoard = arr.find((b) => b.id === +brdId);

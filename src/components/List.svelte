@@ -78,8 +78,11 @@
     use:dndzone={{
       items: board.items,
       flipDurationMs: 200,
-      dropTargetStyle: '',
       transformDraggedElement: onDraging,
+      dropTargetStyle:
+        board.items.length > 1
+          ? ''
+          : { padding: '10px 0', backgroundColor: '#111' },
     }}
     on:consider={handleDrag}
     on:finalize={handleDrag}
