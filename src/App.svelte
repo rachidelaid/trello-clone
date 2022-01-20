@@ -50,6 +50,18 @@
     if (e.target.id === 'delete') {
       const selectedElm = document.querySelector('.on-top');
 
+      if (selectedElm.classList.contains('card-wrap')) {
+        const [brdId, cardId] = selectedElm.id.split('-');
+
+        store.update((arr) => {
+          const list = arr.find((l) => l.id === +brdId);
+          list.items = list.items.filter((c) => c.id !== +cardId);
+
+          localStorage.setItem('store', JSON.stringify(arr));
+          return arr;
+        });
+      }
+
       if (selectedElm.classList.contains('list-wrap')) {
         store.update((arr) => {
           arr = arr.filter((l) => l.id !== +selectedElm.id);

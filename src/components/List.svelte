@@ -88,7 +88,7 @@
       <div
         class="card-wrap"
         animate:flip={{ duration: 200 }}
-        id={`${board.id}-${board.id}`}
+        id={`${board.id}-${task.id}`}
         on:contextmenu
       >
         <Card description={task.description} />
