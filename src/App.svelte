@@ -74,6 +74,41 @@
     }
   };
 
+  const conxEdit = () => {
+    const selectedElm = document.querySelector('.on-top');
+
+    if (selectedElm.classList.contains('card-wrap')) {
+      const [brdId, cardId] = selectedElm.id.split('-');
+
+      const val = selectedElm.querySelector('.card');
+      const inp = document.createElement('input');
+      inp.value = val.innerText;
+      val.innerHTML = '';
+      val.append(inp);
+      inp.focus();
+
+      // inp.addEventListener('focusout', () => {
+      //   card.remove();
+      // });
+      inp.addEventListener('change', () => {
+        store.update((arr) => {
+          const curBoard = arr.find((b) => b.id === +brdId);
+          const curCard = curBoard.items.find((c) => c.id === +cardId);
+
+          curCard.description = inp.value.trim();
+
+          localStorage.setItem('store', JSON.stringify(arr));
+          return arr;
+        });
+        val.innerHTML = inp.value.trim();
+      });
+    }
+
+    if (selectedElm.classList.contains('list-wrap')) {
+      selectedElm.querySelector('input').focus();
+    }
+  };
+
   const showModal = (e) => {
     e.preventDefault();
 
@@ -108,6 +143,10 @@
 
     if (e.target.id === 'copy') {
       conxCopy();
+    }
+
+    if (e.target.id === 'edit') {
+      conxEdit();
     }
 
     modal = false;
