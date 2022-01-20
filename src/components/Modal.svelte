@@ -10,7 +10,7 @@
     <div class="option">Open</div>
     <div class="option">Edit lable</div>
     <div class="option">Copy</div>
-    <div class="option">Delete</div>
+    <div class="option" id="delete">Delete</div>
   </div>
 </div>
 

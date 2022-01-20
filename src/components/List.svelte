@@ -85,7 +85,12 @@
     on:finalize={handleDrag}
   >
     {#each board.items as task (task.id)}
-      <div animate:flip={{ duration: 200 }} on:contextmenu>
+      <div
+        class="card-wrap"
+        animate:flip={{ duration: 200 }}
+        id={`${board.id}-${board.id}`}
+        on:contextmenu
+      >
         <Card description={task.description} />
       </div>
     {/each}

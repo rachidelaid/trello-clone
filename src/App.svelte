@@ -29,7 +29,6 @@
     ) {
       return;
     }
-    console.log(e.target);
 
     document
       .querySelectorAll('.on-top')
@@ -48,9 +47,19 @@
   };
 
   const handleModal = (e) => {
-    if (e.target.id === 'modal') {
-      modal = false;
+    if (e.target.id === 'delete') {
+      const selectedElm = document.querySelector('.on-top');
+
+      if (selectedElm.classList.contains('list-wrap')) {
+        store.update((arr) => {
+          arr = arr.filter((l) => l.id !== +selectedElm.id);
+          localStorage.setItem('store', JSON.stringify(arr));
+          return arr;
+        });
+      }
     }
+
+    modal = false;
   };
 </script>
 
@@ -70,7 +79,7 @@
     on:finalize={handleDrag}
   >
     {#each $store as board (board.id)}
-      <div animate:flip={{ duration: 200 }}>
+      <div animate:flip={{ duration: 200 }} id={board.id} class="list-wrap">
         <List {board} on:contextmenu={showModal} />
       </div>
     {/each}
