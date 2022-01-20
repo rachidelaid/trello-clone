@@ -22,6 +22,15 @@
   const showModal = (e) => {
     e.preventDefault();
 
+    if (
+      modal ||
+      (!e.target.classList.contains('list') &&
+        !e.target.classList.contains('card'))
+    ) {
+      return;
+    }
+    console.log(e.target);
+
     document
       .querySelectorAll('.on-top')
       .forEach((c) => c.classList.remove('on-top'));
@@ -39,7 +48,6 @@
   };
 
   const handleModal = (e) => {
-    console.log(e);
     if (e.target.id === 'modal') {
       modal = false;
     }
