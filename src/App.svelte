@@ -19,6 +19,50 @@
     });
   };
 
+  const conxDelete = () => {
+    const selectedElm = document.querySelector('.on-top');
+
+    if (selectedElm.classList.contains('card-wrap')) {
+      const [brdId, cardId] = selectedElm.id.split('-');
+
+      store.update((arr) => {
+        const list = arr.find((l) => l.id === +brdId);
+        list.items = list.items.filter((c) => c.id !== +cardId);
+
+        localStorage.setItem('store', JSON.stringify(arr));
+        return arr;
+      });
+    }
+
+    if (selectedElm.classList.contains('list-wrap')) {
+      store.update((arr) => {
+        arr = arr.filter((l) => l.id !== +selectedElm.id);
+        localStorage.setItem('store', JSON.stringify(arr));
+        return arr;
+      });
+    }
+  };
+
+  const conxCopy = () => {
+    const selectedElm = document.querySelector('.on-top');
+
+    // if (selectedElm.classList.contains('card-wrap')) {
+    // }
+
+    if (selectedElm.classList.contains('list-wrap')) {
+      store.update((arr) => {
+        const listCopy = { ...arr.find((l) => l.id === +selectedElm.id) };
+        listCopy.title += '-copy';
+        listCopy.id = Date.now();
+
+        arr.push(listCopy);
+
+        localStorage.setItem('store', JSON.stringify(arr));
+        return arr;
+      });
+    }
+  };
+
   const showModal = (e) => {
     e.preventDefault();
 
@@ -48,27 +92,11 @@
 
   const handleModal = (e) => {
     if (e.target.id === 'delete') {
-      const selectedElm = document.querySelector('.on-top');
+      conxDelete();
+    }
 
-      if (selectedElm.classList.contains('card-wrap')) {
-        const [brdId, cardId] = selectedElm.id.split('-');
-
-        store.update((arr) => {
-          const list = arr.find((l) => l.id === +brdId);
-          list.items = list.items.filter((c) => c.id !== +cardId);
-
-          localStorage.setItem('store', JSON.stringify(arr));
-          return arr;
-        });
-      }
-
-      if (selectedElm.classList.contains('list-wrap')) {
-        store.update((arr) => {
-          arr = arr.filter((l) => l.id !== +selectedElm.id);
-          localStorage.setItem('store', JSON.stringify(arr));
-          return arr;
-        });
-      }
+    if (e.target.id === 'copy') {
+      conxCopy();
     }
 
     modal = false;

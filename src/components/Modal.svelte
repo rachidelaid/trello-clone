@@ -7,9 +7,9 @@
     class="menu"
     style={`--top: ${position.top}px; --right: ${position.right}px`}
   >
-    <div class="option">Open</div>
-    <div class="option">Edit lable</div>
-    <div class="option">Copy</div>
+    <div class="option" id="open">Open</div>
+    <div class="option" id="edit">Edit lable</div>
+    <div class="option" id="copy">Copy</div>
     <div class="option" id="delete">Delete</div>
   </div>
 </div>
