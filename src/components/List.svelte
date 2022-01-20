@@ -82,7 +82,7 @@
       dropTargetStyle:
         board.items.length > 1
           ? ''
-          : { padding: '10px 0', backgroundColor: '#111' },
+          : { padding: '10px 0', backgroundColor: '#222' },
     }}
     on:consider={handleDrag}
     on:finalize={handleDrag}
@@ -93,6 +93,7 @@
         animate:flip={{ duration: 200 }}
         id={`${board.id}-${task.id}`}
         on:contextmenu
+        on:click
       >
         <Card description={task.description} />
       </div>
