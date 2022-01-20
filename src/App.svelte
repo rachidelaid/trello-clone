@@ -46,8 +46,19 @@
   const conxCopy = () => {
     const selectedElm = document.querySelector('.on-top');
 
-    // if (selectedElm.classList.contains('card-wrap')) {
-    // }
+    if (selectedElm.classList.contains('card-wrap')) {
+      const [brdId, cardId] = selectedElm.id.split('-');
+
+      store.update((arr) => {
+        const list = arr.find((l) => l.id === +brdId);
+        const cardCopy = { ...list.items.find((c) => c.id === +cardId) };
+        cardCopy.id = Date.now();
+        list.items.push(cardCopy);
+
+        localStorage.setItem('store', JSON.stringify(arr));
+        return arr;
+      });
+    }
 
     if (selectedElm.classList.contains('list-wrap')) {
       store.update((arr) => {
