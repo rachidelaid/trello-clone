@@ -2,6 +2,12 @@
 
 this is a todo list on the Kanban style. built using `svelte` and `svelte-dnd-actions`. you can create list and tasks, edit at any time and drag them around.
 
+![screenshot](./public/screenshot.png)
+
+## Live Link
+
+[https://trello-svelte-clone.netlify.app/](https://trello-svelte-clone.netlify.app/)
+
 ## Get started
 
 Install the dependencies...
