@@ -4,13 +4,11 @@
   import NavBar from './components/NavBar.svelte';
   import List from './components/List.svelte';
   import Modal from './components/ContextModal.svelte';
-  import CardModal from './components/CardModal.svelte';
 
   import { dndzone } from 'svelte-dnd-action';
   import { flip } from 'svelte/animate';
 
   let modal;
-  let cardModal;
   let position;
 
   const handleDrag = (e) => {
@@ -154,19 +152,11 @@
 
     modal = false;
   };
-
-  const showCardModal = () => {
-    cardModal = true;
-  };
 </script>
 
 <main>
   {#if modal}
     <Modal {position} on:click={handleModal} />
-  {/if}
-
-  {#if cardModal}
-    <CardModal />
   {/if}
 
   <NavBar />
@@ -182,7 +172,7 @@
   >
     {#each $store as board (board.id)}
       <div animate:flip={{ duration: 200 }} id={board.id} class="list-wrap">
-        <List {board} on:contextmenu={showModal} on:click={showCardModal} />
+        <List {board} on:contextmenu={showModal} />
       </div>
     {/each}
   </section>
