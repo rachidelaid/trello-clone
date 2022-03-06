@@ -99,6 +99,10 @@
         });
         val.innerHTML = inp.value.trim();
       });
+
+      inp.addEventListener('blur', () => {
+        val.innerHTML = inp.value.trim();
+      });
     }
 
     if (selectedElm.classList.contains('list-wrap')) {
